@@ -11,9 +11,9 @@ import java.util.logging.Level;
 public class FileManager {
     private File file;
 
-    private String dirName;
-    private String fileName;
-    private JavaPlugin plugin;
+    private final String dirName;
+    private final String fileName;
+    private final JavaPlugin plugin;
 
     public FileManager(JavaPlugin plugin, String fileName, String dirName){
         this.fileName = fileName + ".log";
@@ -47,16 +47,15 @@ public class FileManager {
         }
     }
 
-    public void append(String toWrite){
-        try {
-            FileWriter writer = new FileWriter(this.file, true);
-            BufferedWriter bwriter = new BufferedWriter(writer);
-            bwriter.write(toWrite);
-            bwriter.newLine();
-            bwriter.close();
-        } catch (IOException e) {
-            plugin.getLogger().log(Level.SEVERE, "Could not instantiate write object.");
-            throw new RuntimeException(e);
+    public void write(boolean append, String toWrite){
+        try{
+            FileWriter fileWriter = new FileWriter(this.file, append);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.write(toWrite);
+            if (append) bufferedWriter.newLine();
+            bufferedWriter.close();
+        } catch (IOException e){
+            plugin.getLogger().log(Level.SEVERE, "Could not write()");
         }
     }
 
@@ -71,4 +70,5 @@ public class FileManager {
     public String getDirName() {
         return dirName;
     }
+
 }

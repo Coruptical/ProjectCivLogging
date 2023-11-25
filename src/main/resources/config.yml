@@ -1,0 +1,4 @@
+# The time that passes by between each save-cycle of logging.
+# This can be formatted in s, m, or h. E.g. '10s', '20m' or '2h'.
+# Only integer values may be used.
+Logging_Interval: '30m'
