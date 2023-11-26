@@ -38,12 +38,12 @@ public class TimedLogger {
         this.plugin = plugin;
 
         // Create file managers
-        blocksBrokenPlayer = new FileManager(this.plugin, "blocks_broken_by_player", DIRECTORY_NAME);
-        blocksBrokenExplosion = new FileManager(this.plugin, "blocks_broken_by_explosion", DIRECTORY_NAME);
-        blocksPlaced = new FileManager(this.plugin, "blocks_placed", DIRECTORY_NAME);
-        entityKilledPlayer = new FileManager(this.plugin, "player_killed_entity", DIRECTORY_NAME);
-        playerKilledPlayer = new FileManager(this.plugin, "player_killed_player", DIRECTORY_NAME);
-        chestEditsMade = new FileManager(this.plugin, "placed_inventory_edits", DIRECTORY_NAME);
+        blocksBrokenPlayer = new FileManager(this.plugin, DIRECTORY_NAME, "blocks_broken_by_player");
+        blocksBrokenExplosion = new FileManager(this.plugin, DIRECTORY_NAME, "blocks_broken_by_explosion");
+        blocksPlaced = new FileManager(this.plugin, DIRECTORY_NAME, "blocks_placed");
+        entityKilledPlayer = new FileManager(this.plugin, DIRECTORY_NAME, "player_killed_entity");
+        playerKilledPlayer = new FileManager(this.plugin, DIRECTORY_NAME, "player_killed_player");
+        chestEditsMade = new FileManager(this.plugin, DIRECTORY_NAME, "placed_inventory_edits");
 
         // Initialise file managers
         blocksBrokenPlayer.init();
@@ -66,6 +66,10 @@ public class TimedLogger {
         this.runnable = new BukkitRunnable() {
             @Override
             public void run() {
+                plugin.getServer().broadcastMessage("running run() in TimedLogger.java...");
+
+                String now = Utils.getNow();
+
                 for (LogType logType : plugin.getLoggedDataMap().keySet()){
                     FileManager fileManager = logTypeManagerMap.get(logType);
                     Stack<LoggedData> logStack = plugin.getLoggedDataMap().get(logType);
@@ -76,7 +80,7 @@ public class TimedLogger {
                         String formattedLog = log.format();
                         builder.append(formattedLog).append("\n");
                     }
-                    fileManager.write(false, builder.toString());
+                    fileManager.writeLog(now, builder.toString());
                 }
             }
         };

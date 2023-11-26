@@ -1,5 +1,6 @@
 package com.coruptical.projectcivlogging;
 
+import com.coruptical.projectcivlogging.event.BlockBreak;
 import com.coruptical.projectcivlogging.models.LogType;
 import com.coruptical.projectcivlogging.models.LoggedData;
 import com.coruptical.projectcivlogging.utils.TimedLogger;
@@ -8,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
 import java.util.Stack;
+import java.util.logging.Level;
 
 public final class ProjectCivLogging extends JavaPlugin {
     private static ProjectCivLogging instance;
@@ -33,10 +35,28 @@ public final class ProjectCivLogging extends JavaPlugin {
         timedLogger = TimedLogger.getInstance();
         timedLogger.init(instance);
 
+        // Create empty stacks for all log types
+        initLoggedDataMap();
+
         // Delay by logging interval, so we don't create an empty log at the start.
         Bukkit.getScheduler().runTaskLater(this, () -> {
             timedLogger.start();
             }, getLoggingIntervalInTicks());
+
+        // Register listeners
+        getServer().getPluginManager().registerEvents(new BlockBreak(), this);
+
+        getLogger().log(Level.INFO, "Logging interval set to "
+                + getLoggingIntervalInTicks() + " ticks.");
+    }
+
+    private void initLoggedDataMap(){
+        loggedDataMap.put(LogType.BLOCK_BROKEN_PLAYER, new Stack<>());
+        loggedDataMap.put(LogType.BLOCK_BROKEN_EXPLOSION, new Stack<>());
+        loggedDataMap.put(LogType.BLOCK_PLACED, new Stack<>());
+        loggedDataMap.put(LogType.PLAYER_KILLED_ENTITY, new Stack<>());
+        loggedDataMap.put(LogType.PLAYER_KILLED_PLAYER, new Stack<>());
+        loggedDataMap.put(LogType.PLAYER_EDITED_INVENTORY, new Stack<>());
     }
 
     @Override

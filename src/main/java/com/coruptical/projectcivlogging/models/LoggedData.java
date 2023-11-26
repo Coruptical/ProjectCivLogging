@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class LoggedData {
@@ -77,14 +78,16 @@ public class LoggedData {
         String formatted = "";
         String[] storedDataArray = storedData.split(";");
 
-        ArrayList<Object> unformattedInfo = Utils.getLogTypeFormatMap().get(logType);
+        ArrayList<Object> unformattedInfo = Utils.getInstance().getLogTypeFormatMap().get(this.logType);
         String unformatted = (String) unformattedInfo.get(0);
-        int[] order = (int[]) unformattedInfo.get(1);
+
+        // Scuffed casting here but it's fine lol
+        List<Integer> order = (List<Integer>) unformattedInfo.get(1);
 
         String[] unformattedArray = unformatted.split(";");
         builder.append(unformattedArray[0]);
         for (int i = 0; i < storedDataArray.length; i++){
-            builder.append(String.format(unformattedArray[i + 1], storedDataArray[order[i]]));
+            builder.append(String.format(unformattedArray[i + 1], storedDataArray[order.get(i)]));
         }
         formatted = builder.toString();
         return formatted;

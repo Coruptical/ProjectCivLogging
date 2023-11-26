@@ -9,62 +9,61 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 public class FileManager {
-    private File file;
+    private File workingDirectory;
 
     private final String dirName;
-    private final String fileName;
+    private final String workingDirName;
     private final JavaPlugin plugin;
 
-    public FileManager(JavaPlugin plugin, String fileName, String dirName){
-        this.fileName = fileName + ".log";
+    private final String workingDirectoryPath;
+    private final String dirPath;
+
+
+    public FileManager(JavaPlugin plugin, String dirName, String workingDirName){
         this.plugin = plugin;
         this.dirName = dirName;
+        this.workingDirName = workingDirName;
+
+        workingDirectoryPath = plugin.getDataFolder().getAbsolutePath() +
+                "\\" + dirName + "\\" + workingDirName;
+        dirPath = plugin.getDataFolder().getAbsolutePath() + "\\" + dirName;
     }
 
     private void createDirectory(){
-        File dir = new File(plugin.getDataFolder().getAbsolutePath() +
-                "\\" + dirName);
+        File dir = new File(dirPath);
         if(!dir.exists()){
             dir.mkdir();
+        }
+    }
+
+    public void createWorkingDirectory(){
+        File workingDir = new File(workingDirectoryPath);
+        if(!workingDir.exists()){
+            workingDir.mkdir();
         }
     }
     
     public void init(){
         createDirectory();
-
-        String filePath = plugin.getDataFolder().getAbsolutePath() +
-                "\\" + dirName + "\\" + fileName;
-
-        file = new File(filePath);
-        if (!file.exists()){
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                plugin.getLogger().log(Level.SEVERE,
-                        "Failed to create " + fileName);
-                throw new RuntimeException(e);
-            }
-        }
+        createWorkingDirectory();
     }
 
-    public void write(boolean append, String toWrite){
+    public void writeLog(String fileName, String toWrite){
         try{
-            FileWriter fileWriter = new FileWriter(this.file, append);
+            File file = new File(workingDirectoryPath +
+                    "\\" + fileName + ".log");
+
+            FileWriter fileWriter = new FileWriter(file, false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
             bufferedWriter.write(toWrite);
-            if (append) bufferedWriter.newLine();
             bufferedWriter.close();
         } catch (IOException e){
             plugin.getLogger().log(Level.SEVERE, "Could not write()");
         }
     }
 
-    public File getFile() {
-        return file;
-    }
-
-    public String getFileName() {
-        return fileName;
+    public File getWorkingDirectory() {
+        return workingDirectory;
     }
 
     public String getDirName() {

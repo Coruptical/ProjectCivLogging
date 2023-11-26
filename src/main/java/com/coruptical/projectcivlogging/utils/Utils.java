@@ -10,8 +10,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class Utils {
-    private static final HashMap<LogType, ArrayList<Object>> logTypeFormatMap = new HashMap<>();
-    private final Utils i = new Utils();
+    private final HashMap<LogType, ArrayList<Object>> logTypeFormatMap = new HashMap<>();
+    private static final Utils i = new Utils();
+
+    public static Utils getInstance() {
+        return i;
+    }
 
     private Utils(){
         ArrayList<Object> blockBrokenPlayer = new ArrayList<>();
@@ -64,7 +68,7 @@ public class Utils {
                 l.getX() + " " + l.getY() + " " + l.getZ();
     }
 
-    public static HashMap<LogType, ArrayList<Object>> getLogTypeFormatMap() {
+    public HashMap<LogType, ArrayList<Object>> getLogTypeFormatMap() {
         return logTypeFormatMap;
     }
 }
