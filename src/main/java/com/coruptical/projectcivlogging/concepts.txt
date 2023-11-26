@@ -1,0 +1,16 @@
+Storing in LoggedData.java --> storedData formats:
+
+Blocks placed/broken by players:
+"DATE_TIME;PLAYER_NAME;WORLD_LOCATION;MATERIAL_TYPE"
+
+Blocks broken by explosion:
+"DATE_TIME;ENTITY_TYPE;ENTITY_WORLD_LOCATION"
+
+Entities killed by players:
+"DATE_TIME;ENTITY_TYPE;PLAYER_NAME;ENTITY_WORLD_LOCATION"
+
+Players killed by players:
+"DATE_TIME;VICTIM_NAME;ATTACKER_NAME;VICTIM_WORLD_LOCATION"
+
+Inventory edits made by players:
+"DATE_TIME;PLAYER_NAME;INVENTORY_BLOCK_TYPE;INVENTORY_WORLD_LOCATION"
