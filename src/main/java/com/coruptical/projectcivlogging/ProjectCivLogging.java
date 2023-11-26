@@ -1,13 +1,22 @@
 package com.coruptical.projectcivlogging;
 
+import com.coruptical.projectcivlogging.models.LogType;
+import com.coruptical.projectcivlogging.models.LoggedData;
 import com.coruptical.projectcivlogging.utils.TimedLogger;
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Stack;
 
 public final class ProjectCivLogging extends JavaPlugin {
     private static ProjectCivLogging instance;
+
+    private HashMap<LogType, Stack<LoggedData>> loggedDataMap = new HashMap<>();
+
+    public HashMap<LogType, Stack<LoggedData>> getLoggedDataMap() {
+        return loggedDataMap;
+    }
 
     public static ProjectCivLogging getInstance() {
         return instance;
@@ -23,6 +32,11 @@ public final class ProjectCivLogging extends JavaPlugin {
 
         timedLogger = TimedLogger.getInstance();
         timedLogger.init(instance);
+
+        // Delay by logging interval, so we don't create an empty log at the start.
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            timedLogger.start();
+            }, getLoggingIntervalInTicks());
     }
 
     @Override

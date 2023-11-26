@@ -1,12 +1,19 @@
 package com.coruptical.projectcivlogging.utils;
 
 import com.coruptical.projectcivlogging.ProjectCivLogging;
+import com.coruptical.projectcivlogging.models.LogType;
+import com.coruptical.projectcivlogging.models.LoggedData;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
+import java.util.Stack;
 
 public class TimedLogger {
     private ProjectCivLogging plugin;
     private static final TimedLogger instance = new TimedLogger();
     private final String DIRECTORY_NAME = "logs";
+    private final HashMap<LogType, FileManager> logTypeManagerMap = new HashMap<>();
+
 
     private FileManager blocksBrokenPlayer;
     private FileManager blocksBrokenExplosion;
@@ -30,26 +37,53 @@ public class TimedLogger {
         // This method should be called before any other method.
         this.plugin = plugin;
 
+        // Create file managers
         blocksBrokenPlayer = new FileManager(this.plugin, "blocks_broken_by_player", DIRECTORY_NAME);
         blocksBrokenExplosion = new FileManager(this.plugin, "blocks_broken_by_explosion", DIRECTORY_NAME);
         blocksPlaced = new FileManager(this.plugin, "blocks_placed", DIRECTORY_NAME);
-        lavaAndFlintsteel = new FileManager(this.plugin, "lava_and_flintsteel_uses", DIRECTORY_NAME);
         entityKilledPlayer = new FileManager(this.plugin, "player_killed_entity", DIRECTORY_NAME);
         playerKilledPlayer = new FileManager(this.plugin, "player_killed_player", DIRECTORY_NAME);
         chestEditsMade = new FileManager(this.plugin, "placed_inventory_edits", DIRECTORY_NAME);
+
+        // Initialise file managers
+        blocksBrokenPlayer.init();
+        blocksBrokenExplosion.init();
+        blocksPlaced.init();
+        entityKilledPlayer.init();
+        playerKilledPlayer.init();
+        chestEditsMade.init();
+
+        // Assort log types to their file manager
+        logTypeManagerMap.put(LogType.BLOCK_BROKEN_PLAYER, blocksBrokenPlayer);
+        logTypeManagerMap.put(LogType.BLOCK_BROKEN_EXPLOSION, blocksBrokenExplosion);
+        logTypeManagerMap.put(LogType.BLOCK_PLACED, blocksPlaced);
+        logTypeManagerMap.put(LogType.PLAYER_KILLED_ENTITY, entityKilledPlayer);
+        logTypeManagerMap.put(LogType.PLAYER_KILLED_PLAYER, playerKilledPlayer);
+        logTypeManagerMap.put(LogType.PLAYER_EDITED_INVENTORY, chestEditsMade);
     }
 
-    public void run(){
+    public void start(){
         this.runnable = new BukkitRunnable() {
             @Override
             public void run() {
+                for (LogType logType : plugin.getLoggedDataMap().keySet()){
+                    FileManager fileManager = logTypeManagerMap.get(logType);
+                    Stack<LoggedData> logStack = plugin.getLoggedDataMap().get(logType);
+                    StringBuilder builder = new StringBuilder();
 
+                    while (!logStack.empty()){
+                        LoggedData log = logStack.pop();
+                        String formattedLog = log.format();
+                        builder.append(formattedLog).append("\n");
+                    }
+                    fileManager.write(false, builder.toString());
+                }
             }
         };
         runnable.runTaskTimerAsynchronously(plugin, 1L, plugin.getLoggingIntervalInTicks());
     }
 
-    public void cancelRunnable(){
+    public void stop(){
         runnable.cancel();
     }
 }

@@ -1,10 +1,12 @@
 package com.coruptical.projectcivlogging.models;
 
 import com.coruptical.projectcivlogging.utils.Utils;
-import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 
 public class LoggedData {
@@ -68,5 +70,23 @@ public class LoggedData {
 
         storedData = String.format("%s;%s;%s;%s",
                 date, pName, inventoryBlockType, inventoryLocation);
+    }
+
+    public String format(){
+        StringBuilder builder = new StringBuilder();
+        String formatted = "";
+        String[] storedDataArray = storedData.split(";");
+
+        ArrayList<Object> unformattedInfo = Utils.getLogTypeFormatMap().get(logType);
+        String unformatted = (String) unformattedInfo.get(0);
+        int[] order = (int[]) unformattedInfo.get(1);
+
+        String[] unformattedArray = unformatted.split(";");
+        builder.append(unformattedArray[0]);
+        for (int i = 0; i < storedDataArray.length; i++){
+            builder.append(String.format(unformattedArray[i + 1], storedDataArray[order[i]]));
+        }
+        formatted = builder.toString();
+        return formatted;
     }
 }

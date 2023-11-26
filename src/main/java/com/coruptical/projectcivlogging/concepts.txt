@@ -1,16 +1,32 @@
 Storing in LoggedData.java --> storedData formats:
 
-Blocks placed/broken by players:
+1) Blocks placed/broken by players:
 "DATE_TIME;PLAYER_NAME;WORLD_LOCATION;MATERIAL_TYPE"
+"%s;%s;%s;%s"
 
-Blocks broken by explosion:
+2) Blocks broken by explosion:
 "DATE_TIME;ENTITY_TYPE;ENTITY_WORLD_LOCATION"
+"%s;%s;%s"
 
-Entities killed by players:
+3) Entities killed by players:
 "DATE_TIME;ENTITY_TYPE;PLAYER_NAME;ENTITY_WORLD_LOCATION"
+"%s;%s;%s;%s"
 
-Players killed by players:
+4) Players killed by players:
 "DATE_TIME;VICTIM_NAME;ATTACKER_NAME;VICTIM_WORLD_LOCATION"
+"%s;%s;%s;%s"
 
-Inventory edits made by players:
+5) Inventory edits made by players:
 "DATE_TIME;PLAYER_NAME;INVENTORY_BLOCK_TYPE;INVENTORY_WORLD_LOCATION"
+"%s;%s;%s;%s"
+
+
+How to turn the storedData variable into actual text:
+- Split the string into an array using String.split(';')
+- Detect what log type we need to use and base it off of this.
+
+1) "[%s]: %s placed/broke %s at: %s" AND l[0], l[1], l[3], l[2]
+
+2) "[%s]: %s broke blocks by explosion at: %s" AND l[0], l[1], l[2]
+
+etc.
