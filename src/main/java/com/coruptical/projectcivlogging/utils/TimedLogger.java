@@ -73,6 +73,8 @@ public class TimedLogger {
                 for (LogType logType : plugin.getLoggedDataMap().keySet()){
                     FileManager fileManager = logTypeManagerMap.get(logType);
                     Stack<LoggedData> logStack = plugin.getLoggedDataMap().get(logType);
+                    if (logStack.empty()) continue;
+
                     StringBuilder builder = new StringBuilder();
 
                     while (!logStack.empty()){

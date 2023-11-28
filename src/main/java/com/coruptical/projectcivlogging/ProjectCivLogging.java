@@ -1,10 +1,15 @@
 package com.coruptical.projectcivlogging;
 
-import com.coruptical.projectcivlogging.event.BlockBreak;
+import com.coruptical.projectcivlogging.event.BlockBreakListener;
+import com.coruptical.projectcivlogging.event.BlockPlaceListener;
+import com.coruptical.projectcivlogging.event.EntityKilledListener;
+import com.coruptical.projectcivlogging.event.InventoryEditListener;
 import com.coruptical.projectcivlogging.models.LogType;
 import com.coruptical.projectcivlogging.models.LoggedData;
 import com.coruptical.projectcivlogging.utils.TimedLogger;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -15,6 +20,12 @@ public final class ProjectCivLogging extends JavaPlugin {
     private static ProjectCivLogging instance;
 
     private HashMap<LogType, Stack<LoggedData>> loggedDataMap = new HashMap<>();
+
+    private HashMap<Player, ItemStack[]> inventoryContentsMap = new HashMap<>();
+
+    public HashMap<Player, ItemStack[]> getInventoryContentsMap() {
+        return inventoryContentsMap;
+    }
 
     public HashMap<LogType, Stack<LoggedData>> getLoggedDataMap() {
         return loggedDataMap;
@@ -44,7 +55,10 @@ public final class ProjectCivLogging extends JavaPlugin {
             }, getLoggingIntervalInTicks());
 
         // Register listeners
-        getServer().getPluginManager().registerEvents(new BlockBreak(), this);
+        getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);
+        getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
+        getServer().getPluginManager().registerEvents(new EntityKilledListener(), this);
+        getServer().getPluginManager().registerEvents(new InventoryEditListener(), this);
 
         getLogger().log(Level.INFO, "Logging interval set to "
                 + getLoggingIntervalInTicks() + " ticks.");

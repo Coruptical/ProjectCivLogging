@@ -7,18 +7,20 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 
-public class BlockBreak implements Listener {
+public class BlockPlaceListener implements Listener {
     private final ProjectCivLogging plugin = ProjectCivLogging.getInstance();
 
     @EventHandler
-    public void onPlayerBreak(BlockBreakEvent e){
+    public void onPlace(BlockPlaceEvent e){
         Player p = e.getPlayer();
-        Block b = e.getBlock();
+        Block b = e.getBlockPlaced();
 
-        LoggedData log = new LoggedData(p, b, LogType.BLOCK_BROKEN_PLAYER);
-        plugin.getLoggedDataMap().get(LogType.BLOCK_BROKEN_PLAYER).push(log);
-        plugin.getServer().broadcastMessage("pushed new block break log onto stack.");
+        LoggedData log = new LoggedData(p, b, LogType.BLOCK_PLACED);
+        plugin.getLoggedDataMap().get(LogType.BLOCK_PLACED).push(log);
+        plugin.getServer().broadcastMessage("pushed new block place log onto stack.");
     }
+
+
 }
