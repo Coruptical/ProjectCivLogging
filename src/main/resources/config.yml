@@ -2,3 +2,9 @@
 # This can be formatted in s, m, or h. E.g. '10s', '20m' or '2h'.
 # Only integer values may be used.
 Logging_Interval: '30m'
+
+# This is the permission required to use all admin commands
+Admin_Permission: 'projectcivlogging.admin'
+
+# This is the permission message that is sent to players if they don't have command permission.
+No_Permission_Message: '&cYou do not have permission to use this command.'

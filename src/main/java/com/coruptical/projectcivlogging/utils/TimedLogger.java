@@ -66,6 +66,7 @@ public class TimedLogger {
         this.runnable = new BukkitRunnable() {
             @Override
             public void run() {
+                long start = System.nanoTime();
                 plugin.getServer().broadcastMessage("running run() in TimedLogger.java...");
 
                 String now = Utils.getNow();
@@ -84,6 +85,9 @@ public class TimedLogger {
                     }
                     fileManager.writeLog(now, builder.toString());
                 }
+                long elapsed = System.nanoTime() - start;
+                plugin.getServer().broadcastMessage("run() method took "
+                + (double) elapsed/1000000 + "ms.");
             }
         };
         runnable.runTaskTimerAsynchronously(plugin, 1L, plugin.getLoggingIntervalInTicks());

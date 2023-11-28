@@ -19,27 +19,27 @@ public class Utils {
 
     private Utils(){
         ArrayList<Object> blockBrokenPlayer = new ArrayList<>();
-        blockBrokenPlayer.add("[;%s]: ;%s broke ;%s at location: ;%s");
+        blockBrokenPlayer.add("[;%s]: ;%s broke ;%s at: ;%s");
         blockBrokenPlayer.add(Arrays.asList(0, 1, 3, 2));
 
         ArrayList<Object> blockBrokenExplosion = new ArrayList<>();
-        blockBrokenPlayer.add("[;%s]: ;%s broke blocks by explosion at location: ;%s");
+        blockBrokenPlayer.add("[;%s]: ;%s broke blocks by explosion at: ;%s");
         blockBrokenPlayer.add(Arrays.asList(0, 1, 2));
 
         ArrayList<Object> blocksPlaced = new ArrayList<>();
-        blocksPlaced.add("[;%s]: ;%s placed ;%s at location: ;%s");
+        blocksPlaced.add("[;%s]: ;%s placed ;%s at: ;%s");
         blocksPlaced.add(Arrays.asList(0, 1, 3, 2));
 
         ArrayList<Object> playerKilledEntity = new ArrayList<>();
-        playerKilledEntity.add("[;%s]: ;%s killed ;%s at location: ;%s");
+        playerKilledEntity.add("[;%s]: ;%s killed ;%s at: ;%s");
         playerKilledEntity.add(Arrays.asList(0, 2, 1, 3));
 
         ArrayList<Object> playerKilledPlayer = new ArrayList<>();
-        playerKilledPlayer.add("[;%s]: ;%s killed ;%s at location: ;%s");
+        playerKilledPlayer.add("[;%s]: ;%s killed ;%s at: ;%s");
         playerKilledPlayer.add(Arrays.asList(0, 2, 1, 3));
 
         ArrayList<Object> playerEditedInventory = new ArrayList<>();
-        playerEditedInventory.add("[;%s]: ;%s edited ;%s at location: ;%s");
+        playerEditedInventory.add("[;%s]: ;%s edited ;%s at: ;%s");
         playerEditedInventory.add(Arrays.asList(0, 1, 2, 3));
 
 

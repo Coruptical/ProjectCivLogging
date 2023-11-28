@@ -1,5 +1,6 @@
 package com.coruptical.projectcivlogging;
 
+import com.coruptical.projectcivlogging.commands.ReloadConfigCommand;
 import com.coruptical.projectcivlogging.event.BlockBreakListener;
 import com.coruptical.projectcivlogging.event.BlockPlaceListener;
 import com.coruptical.projectcivlogging.event.EntityKilledListener;
@@ -8,6 +9,7 @@ import com.coruptical.projectcivlogging.models.LogType;
 import com.coruptical.projectcivlogging.models.LoggedData;
 import com.coruptical.projectcivlogging.utils.TimedLogger;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -60,6 +62,9 @@ public final class ProjectCivLogging extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityKilledListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryEditListener(), this);
 
+        // Register commands
+        getCommand("civlogging_reload").setExecutor(new ReloadConfigCommand());
+
         getLogger().log(Level.INFO, "Logging interval set to "
                 + getLoggingIntervalInTicks() + " ticks.");
     }
@@ -76,6 +81,15 @@ public final class ProjectCivLogging extends JavaPlugin {
     @Override
     public void onDisable() {
 
+    }
+
+    public String getAdminPermission(){
+        return getConfig().getString("Admin_Permission");
+    }
+
+    public String getNoPermissionMessage(){
+        return ChatColor.translateAlternateColorCodes('&',
+                getConfig().getString("No_Permission_Message"));
     }
 
     public long getLoggingIntervalInTicks(){

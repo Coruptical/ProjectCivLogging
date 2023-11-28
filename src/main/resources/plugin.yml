@@ -4,3 +4,8 @@ main: com.coruptical.projectcivlogging.ProjectCivLogging
 api-version: '1.20'
 authors: [Coruptical]
 description: Logging plugin for ProjectCiv part one.
+commands:
+  civlogging_reload:
+    description: Reloads the contents of config.yml
+    aliases:
+      - cl_rl
