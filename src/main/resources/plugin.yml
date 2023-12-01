@@ -9,3 +9,5 @@ commands:
     description: Reloads the contents of config.yml
     aliases:
       - cl_rl
+  playtime:
+    description: Allows you to get any players playtime.

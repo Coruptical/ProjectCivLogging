@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 public class Utils {
     private final HashMap<LogType, ArrayList<Object>> logTypeFormatMap = new HashMap<>();
@@ -61,6 +62,16 @@ public class Utils {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-MM-yyyy HH.m.ss");
         LocalDateTime now = LocalDateTime.now();
         return dtf.format(now);
+    }
+
+    public static String calculateTime(long seconds) {
+        int day = (int) TimeUnit.SECONDS.toDays(seconds);
+        long hours = TimeUnit.SECONDS.toHours(seconds) - (day * 24L);
+        long minute = TimeUnit.SECONDS.toMinutes(seconds) - (TimeUnit.SECONDS.toHours(seconds) * 60);
+        long second = TimeUnit.SECONDS.toSeconds(seconds) - (TimeUnit.SECONDS.toMinutes(seconds) * 60);
+
+        return day + " days " + hours + " hours " + minute + " minutes " + second + " seconds.";
+
     }
 
     public static String formatWorldLocation(Location l){

@@ -1,6 +1,7 @@
 package com.coruptical.projectcivlogging.commands;
 
 import com.coruptical.projectcivlogging.ProjectCivLogging;
+import com.coruptical.projectcivlogging.utils.TimedLogger;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,6 +27,8 @@ public class ReloadConfigCommand implements CommandExecutor {
             }
 
             plugin.reloadConfig();
+            TimedLogger.getInstance().stop();
+            TimedLogger.getInstance().start();
         }
         return true;
     }

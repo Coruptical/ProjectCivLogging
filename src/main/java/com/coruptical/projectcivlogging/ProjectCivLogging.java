@@ -1,12 +1,11 @@
 package com.coruptical.projectcivlogging;
 
+import com.coruptical.projectcivlogging.commands.PlaytimeCommand;
 import com.coruptical.projectcivlogging.commands.ReloadConfigCommand;
-import com.coruptical.projectcivlogging.event.BlockBreakListener;
-import com.coruptical.projectcivlogging.event.BlockPlaceListener;
-import com.coruptical.projectcivlogging.event.EntityKilledListener;
-import com.coruptical.projectcivlogging.event.InventoryEditListener;
+import com.coruptical.projectcivlogging.event.*;
 import com.coruptical.projectcivlogging.models.LogType;
 import com.coruptical.projectcivlogging.models.LoggedData;
+import com.coruptical.projectcivlogging.utils.PlaytimeHandler;
 import com.coruptical.projectcivlogging.utils.TimedLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,9 +20,21 @@ import java.util.logging.Level;
 public final class ProjectCivLogging extends JavaPlugin {
     private static ProjectCivLogging instance;
 
-    private HashMap<LogType, Stack<LoggedData>> loggedDataMap = new HashMap<>();
+    private final HashMap<LogType, Stack<LoggedData>> loggedDataMap = new HashMap<>();
 
-    private HashMap<Player, ItemStack[]> inventoryContentsMap = new HashMap<>();
+    private final HashMap<Player, ItemStack[]> inventoryContentsMap = new HashMap<>();
+
+    private final HashMap<Player, Integer> playtimeMap = new HashMap<>();
+
+    private PlaytimeHandler playtimeHandler;
+
+    public PlaytimeHandler getPlaytimeHandler() {
+        return playtimeHandler;
+    }
+
+    public HashMap<Player, Integer> getPlaytimeMap() {
+        return playtimeMap;
+    }
 
     public HashMap<Player, ItemStack[]> getInventoryContentsMap() {
         return inventoryContentsMap;
@@ -61,12 +72,24 @@ public final class ProjectCivLogging extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BlockPlaceListener(), this);
         getServer().getPluginManager().registerEvents(new EntityKilledListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryEditListener(), this);
+        getServer().getPluginManager().registerEvents(new PlaytimeListener(), this);
 
         // Register commands
         getCommand("civlogging_reload").setExecutor(new ReloadConfigCommand());
 
+        PlaytimeCommand playtimeCommand = new PlaytimeCommand();
+        getCommand("playtime").setExecutor(playtimeCommand);
+        getCommand("playtime").setTabCompleter(playtimeCommand);
+
         getLogger().log(Level.INFO, "Logging interval set to "
                 + getLoggingIntervalInTicks() + " ticks.");
+
+
+        // Get playtime handler.
+        playtimeHandler = PlaytimeHandler.getInstance();
+        playtimeHandler.init(this);
+
+        playtimeHandler.startTiming();
     }
 
     private void initLoggedDataMap(){
