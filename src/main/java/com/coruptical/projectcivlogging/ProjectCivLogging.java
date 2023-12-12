@@ -101,7 +101,11 @@ public final class ProjectCivLogging extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        timedLogger.saveOnce();
 
+        for (Player player: getServer().getOnlinePlayers()){
+            playtimeHandler.saveOne(player);
+        }
     }
 
     public String getAdminPermission(){
