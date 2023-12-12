@@ -9,10 +9,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 public class FileManager {
-    private File workingDirectory;
 
-    private final String dirName;
-    private final String workingDirName;
     private final JavaPlugin plugin;
 
     private final String workingDirectoryPath;
@@ -21,12 +18,10 @@ public class FileManager {
 
     public FileManager(JavaPlugin plugin, String dirName, String workingDirName){
         this.plugin = plugin;
-        this.dirName = dirName;
-        this.workingDirName = workingDirName;
 
         workingDirectoryPath = plugin.getDataFolder().getAbsolutePath() +
-                "\\" + dirName + "\\" + workingDirName;
-        dirPath = plugin.getDataFolder().getAbsolutePath() + "\\" + dirName;
+                "/" + dirName + "/" + workingDirName;
+        dirPath = plugin.getDataFolder().getAbsolutePath() + "/" + dirName;
     }
 
     private void createDirectory(){
@@ -51,7 +46,7 @@ public class FileManager {
     public void writeLog(String fileName, String toWrite){
         try{
             File file = new File(workingDirectoryPath +
-                    "\\" + fileName + ".log");
+                    "/" + fileName + ".log");
 
             FileWriter fileWriter = new FileWriter(file, false);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
@@ -60,14 +55,6 @@ public class FileManager {
         } catch (IOException e){
             plugin.getLogger().log(Level.SEVERE, "Could not write()");
         }
-    }
-
-    public File getWorkingDirectory() {
-        return workingDirectory;
-    }
-
-    public String getDirName() {
-        return dirName;
     }
 
 }

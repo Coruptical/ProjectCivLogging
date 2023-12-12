@@ -55,7 +55,6 @@ public class InventoryEditListener implements Listener {
                 Location inventoryLocation = inventory.getLocation();
                 LoggedData log = new LoggedData(p, inventoryLocation.getBlock());
                 plugin.getLoggedDataMap().get(LogType.PLAYER_EDITED_INVENTORY).push(log);
-                plugin.getServer().broadcastMessage("pushed edited inventory onto stack.");
             }
             plugin.getInventoryContentsMap().remove(p);
         }

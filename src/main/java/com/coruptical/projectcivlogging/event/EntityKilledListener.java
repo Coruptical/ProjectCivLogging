@@ -22,7 +22,6 @@ public class EntityKilledListener implements Listener {
 
         LoggedData log = new LoggedData(ent, attacker);
         plugin.getLoggedDataMap().get(LogType.PLAYER_KILLED_ENTITY).push(log);
-        plugin.getServer().broadcastMessage("pushed new player killed entity onto stack.");
 
     }
 
@@ -35,6 +34,5 @@ public class EntityKilledListener implements Listener {
 
         LoggedData log = new LoggedData(victim, attacker);
         plugin.getLoggedDataMap().get(LogType.PLAYER_KILLED_PLAYER).push(log);
-        plugin.getServer().broadcastMessage("pushed new player killed player onto stack.");
     }
 }

@@ -20,15 +20,14 @@ public class BlockBreakListener implements Listener {
 
         LoggedData log = new LoggedData(p, b, LogType.BLOCK_BROKEN_PLAYER);
         plugin.getLoggedDataMap().get(LogType.BLOCK_BROKEN_PLAYER).push(log);
-        plugin.getServer().broadcastMessage("pushed new block player break log onto stack.");
     }
 
     @EventHandler
     public void onExplosionBreak(EntityExplodeEvent e){
         if (e.blockList().isEmpty()) return;
+
         LoggedData log = new LoggedData(e.getEntity());
         plugin.getLoggedDataMap().get(LogType.BLOCK_BROKEN_EXPLOSION).push(log);
-        plugin.getServer().broadcastMessage("pushed new block break explosion onto stack.");
     }
 
 

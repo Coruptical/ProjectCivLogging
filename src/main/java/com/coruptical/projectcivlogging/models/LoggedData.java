@@ -75,10 +75,10 @@ public class LoggedData {
 
     public String format(){
         StringBuilder builder = new StringBuilder();
-        String formatted = "";
+        String formatted;
         String[] storedDataArray = storedData.split(";");
 
-        ArrayList<Object> unformattedInfo = Utils.getInstance().getLogTypeFormatMap().get(this.logType);
+        ArrayList<Object> unformattedInfo = Utils.getInstance().getLogTypeFormatMap().get(logType);
         String unformatted = (String) unformattedInfo.get(0);
 
         // Scuffed casting here but it's fine lol

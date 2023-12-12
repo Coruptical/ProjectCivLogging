@@ -62,10 +62,8 @@ public final class ProjectCivLogging extends JavaPlugin {
         // Create empty stacks for all log types
         initLoggedDataMap();
 
-        // Delay by logging interval, so we don't create an empty log at the start.
-        Bukkit.getScheduler().runTaskLater(this, () -> {
-            timedLogger.start();
-            }, getLoggingIntervalInTicks());
+        // Start logging
+        timedLogger.start();
 
         // Register listeners
         getServer().getPluginManager().registerEvents(new BlockBreakListener(), this);

@@ -7,6 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Stack;
+import java.util.logging.Level;
 
 public class TimedLogger {
     private ProjectCivLogging plugin;
@@ -18,7 +19,6 @@ public class TimedLogger {
     private FileManager blocksBrokenPlayer;
     private FileManager blocksBrokenExplosion;
     private FileManager blocksPlaced;
-    private FileManager lavaAndFlintsteel;
     private FileManager entityKilledPlayer;
     private FileManager playerKilledPlayer;
     private FileManager chestEditsMade;
@@ -67,7 +67,7 @@ public class TimedLogger {
             @Override
             public void run() {
                 long start = System.nanoTime();
-                plugin.getServer().broadcastMessage("running run() in TimedLogger.java...");
+                plugin.getLogger().log(Level.INFO, "Saving all stored logs...");
 
                 String now = Utils.getNow();
 
@@ -86,8 +86,7 @@ public class TimedLogger {
                     fileManager.writeLog(now, builder.toString());
                 }
                 long elapsed = System.nanoTime() - start;
-                plugin.getServer().broadcastMessage("run() method took "
-                + (double) elapsed/1000000 + "ms.");
+                plugin.getLogger().log(Level.INFO, "Successfully saved all stored logs in " + (double) elapsed/1000000 + "ms.");
             }
         };
         runnable.runTaskTimerAsynchronously(plugin, 1L, plugin.getLoggingIntervalInTicks());

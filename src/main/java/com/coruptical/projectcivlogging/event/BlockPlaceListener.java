@@ -19,7 +19,6 @@ public class BlockPlaceListener implements Listener {
 
         LoggedData log = new LoggedData(p, b, LogType.BLOCK_PLACED);
         plugin.getLoggedDataMap().get(LogType.BLOCK_PLACED).push(log);
-        plugin.getServer().broadcastMessage("pushed new block place log onto stack.");
     }
 
 

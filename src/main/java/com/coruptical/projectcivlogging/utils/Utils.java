@@ -23,13 +23,20 @@ public class Utils {
         blockBrokenPlayer.add("[;%s]: ;%s broke ;%s at: ;%s");
         blockBrokenPlayer.add(Arrays.asList(0, 1, 3, 2));
 
+
+        // If we wanted to use pairs: Import org.javatuples dependency and use
+//        Pair<String, List<Integer>> blockBrokenPair = new Pair<>(
+//                "[;%s]: ;%s broke ;%s at: ;%s",
+//                Arrays.asList(0, 1, 3, 2));
+
         ArrayList<Object> blockBrokenExplosion = new ArrayList<>();
-        blockBrokenPlayer.add("[;%s]: ;%s broke blocks by explosion at: ;%s");
-        blockBrokenPlayer.add(Arrays.asList(0, 1, 2));
+        blockBrokenExplosion.add("[;%s]: ;%s broke blocks by explosion at: ;%s");
+        blockBrokenExplosion.add(Arrays.asList(0, 1, 2));
 
         ArrayList<Object> blocksPlaced = new ArrayList<>();
         blocksPlaced.add("[;%s]: ;%s placed ;%s at: ;%s");
         blocksPlaced.add(Arrays.asList(0, 1, 3, 2));
+
 
         ArrayList<Object> playerKilledEntity = new ArrayList<>();
         playerKilledEntity.add("[;%s]: ;%s killed ;%s at: ;%s");
@@ -76,7 +83,7 @@ public class Utils {
 
     public static String formatWorldLocation(Location l){
         return "[" + l.getWorld().getName() + "]: " +
-                l.getX() + " " + l.getY() + " " + l.getZ();
+                l.getBlockX() + " " + l.getBlockY() + " " + l.getBlockZ();
     }
 
     public HashMap<LogType, ArrayList<Object>> getLogTypeFormatMap() {
